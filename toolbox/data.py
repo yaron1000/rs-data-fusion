@@ -78,7 +78,7 @@ def sample_to_array(samples, lr_gen_sub, hr_gen_sub, patches):
 
 
 def load_train_set(image_dir, lr_sub_size=10, lr_sub_stride=5, scale=16):
-    """从给定的数据目录中加载高低分辨率的数据（根据高分辨率图像采样得到低分辨的图像）"""
+    """从给定的数据目录中加载高低分辨率的数据"""
     hr_sub_size = lr_sub_size * scale
     hr_sub_stride = lr_sub_stride * scale
 
@@ -92,6 +92,7 @@ def load_train_set(image_dir, lr_sub_size=10, lr_sub_stride=5, scale=16):
             samples = load_image_pairs(path, scale=scale)
             samples = [*samples[0], samples[1]]
             sample_to_array(samples, lr_gen_sub, hr_gen_sub, patches)
+            del samples
 
     for i in range(4):
         patches[i] = np.stack(patches[i])

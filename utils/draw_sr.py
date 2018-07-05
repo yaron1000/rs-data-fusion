@@ -36,8 +36,8 @@ if ix.ndim == 3:
 # 单波段数据
 assert ix.ndim == 2 and iy.ndim == 2
 
-x = ix[:500, :500].flatten()
-y = iy[:500, :500].flatten()
+x = ix[:300, :300].flatten()
+y = iy[:300, :300].flatten()
 r2 = r2_score(x, y)
 
 xy = np.vstack([x, y])
@@ -47,6 +47,7 @@ x, y, z = x[idx], y[idx], z[idx]
 
 fig = plt.figure()
 ax = plt.gca()
+ax.tick_params(labelsize=11)
 ax.scatter(x, y, c=z, s=1, cmap=plt.cm.rainbow)
 
 max_sr = 3000 if band_ix in (0, 1) else 6000
@@ -54,11 +55,11 @@ ax.set_xlim((0, max_sr))
 ax.set_ylim((0, max_sr))
 ax.plot([0, max_sr], [0, max_sr], linewidth=1, color='gray')
 
-ax.set_title(title, fontsize=14, fontweight='bold')
+ax.set_title(title, fontsize=15, fontweight='bold')
 band_names = ['Green band', 'Red band', 'NIR band']
-ax.text(max_sr * 0.1, max_sr * 0.9, band_names[band_ix], fontsize=10)
-ax.text(max_sr * 0.8, max_sr * 0.1, r'$R^2=$' + '{:.3f}'.format(r2), fontsize=10)
-ax.set_xlabel("Observed reflectance", fontsize=12)
-ax.set_ylabel("Predicted reflectance", fontsize=12)
-fig.savefig(output_name, dpi=900)
+ax.text(max_sr * 0.12, max_sr * 0.85, band_names[band_ix], fontsize=13)
+ax.text(max_sr * 0.75, max_sr * 0.15, r'$R^2=$' + '{:.3f}'.format(r2), fontsize=13)
+ax.set_xlabel("Observed reflectance", fontsize=13)
+ax.set_ylabel("Predicted reflectance", fontsize=13)
+fig.savefig(output_name)
 plt.close()

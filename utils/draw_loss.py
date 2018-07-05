@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-sns.set_context("paper", rc={'font.sans-serif': 'Helvetica',
+sns.set_context("paper", rc={'font.sans-serif': 'Arial',
                              'font.size': 12})
 
 df_green = pd.read_csv('~/Resources/Experiments/dcfnex-12/dcstfn-green/train/history.csv')
@@ -28,11 +28,11 @@ for metric, linestyle in zip(metrics, linestyles):
                 linestyle=linestyle)
 
 ax.set_yscale('log')
-ax.set_xlabel('Epoch', fontsize=12)
-ax.set_ylabel('MSE', fontsize=12)
+ax.set_xlabel('Epoch', fontsize=13)
+ax.set_ylabel('MSE', fontsize=13)
 
-ax.tick_params(axis='both', which='major', labelsize=9)
-ax.tick_params(axis='both', which='minor', labelsize=8)
+ax.tick_params(axis='both', which='major', labelsize=11)
+ax.tick_params(axis='both', which='minor', labelsize=10)
 ax.set_xticks(range(0, epoch.size + 1, 10))
 ytick_labels = ax.yaxis.get_ticklabels(minor=True)
 ytick_labels[16] = r'$2\times10^4$'
@@ -50,12 +50,12 @@ for i in range(2):
 ax.grid(True)
 lines = ax.get_lines()
 color_legend = ax.legend(handles=[lines[i] for i in range(3)], labels=labels,
-                         loc=1, bbox_to_anchor=(0.967, 1), fontsize=10, frameon=False)
+                         loc=1, bbox_to_anchor=(0.98, 1.02), fontsize=11, frameon=False)
 line_legend = ax.legend(handles=[lines[i] for i in range(-2, 0)], labels=('Training', 'Validation'),
-                        loc=1, bbox_to_anchor=(0.778, 1), fontsize=10, frameon=False)
+                        loc=1, bbox_to_anchor=(0.76, 0.995), fontsize=11, frameon=False)
 ax.add_artist(color_legend)
 ax.add_artist(line_legend)
-ax.set_title('Loss Curve', fontsize=14, fontweight='bold')
+ax.set_title('Loss Curve', fontsize=15, fontweight='bold')
 
-plt.savefig('loss.png', dpi=900)
+plt.savefig('loss.eps')
 plt.close()

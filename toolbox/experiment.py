@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 from keras import backend as K
-from keras.callbacks import CSVLogger, ModelCheckpoint
+from keras.callbacks import CSVLogger, ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 from keras.utils.vis_utils import plot_model
 from keras.preprocessing.image import img_to_array
 
@@ -94,7 +94,7 @@ class Experiment(object):
         if resume:
             latest_epoch = self.latest_epoch
             if latest_epoch > -1:
-                weights_file = self.weights_file(epoch=latest_epoch)
+                weights_file = self.weights_file(epoch=latest_epoch+1)
                 model.load_weights(str(weights_file))
             initial_epoch = latest_epoch + 1
         else:
@@ -106,9 +106,11 @@ class Experiment(object):
         callbacks += [ModelCheckpoint(str(self.weights_file()),
                                       save_weights_only=True)]
         callbacks += [CSVLogger(str(self.history_file), append=resume)]
+        callbacks += [EarlyStopping(min_delta=1e-3, patience=5)]
+        callbacks += [ReduceLROnPlateau(patience=2)]
 
         # Train
-        model.fit(x_train, y_train, batch_size=320, epochs=epochs, callbacks=callbacks,
+        model.fit(x_train, y_train, batch_size=224, epochs=epochs, callbacks=callbacks,
                   validation_data=(x_val, y_val), initial_epoch=initial_epoch)
 
         # Plot metrics history
